@@ -1,6 +1,9 @@
+use grex::RegExpBuilder;
+
 #[rustler::nif]
-fn reverse(s: String) -> String {
-    s.chars().rev().collect()
+fn shuffle(s: String) -> String {
+    let lines: Vec<&str> = s.lines().collect();
+    RegExpBuilder::from(&lines).build()
 }
 
-rustler::init!("Elixir.RegexHelper", [reverse]);
+rustler::init!("Elixir.RegexHelper", [shuffle]);

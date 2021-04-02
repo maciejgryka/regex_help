@@ -8,7 +8,8 @@ defmodule RegexHelpWeb.PageLive do
 
   @impl true
   def handle_event("update_username", %{"value" => query}, socket) do
-    yreuq = RegexHelper.reverse(query)
-    {:noreply, assign(socket, help_response: yreuq)}
+    # yreuq = RegexHelper.reverse(query)
+    lines = RegexHelper.shuffle(query)
+    {:noreply, assign(socket, help_response: lines)}
   end
 end
