@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eu pipefail
+
+NODE_ENV=development mix phx.server
