@@ -1,3 +1,13 @@
 <h1>Regex help</h1>
-<textarea name="query" rows="5" cols="33" phx-keydown="update_username" phx-debounce="200"></textarea>
+<textarea name="query" rows="5" cols="33" phx-keydown="update_query" phx-debounce="200"><%= @query %></textarea>
+<div>
+    <%= checkbox(
+        :reg,
+        :repetitions,
+        value: @flags.repetitions,
+        phx_click: "set_flag_repetitions",
+        phx_value_enabled: @flags.repetitions == true,
+    ) %>
+    repetitions
+</div>
 <pre><%= @help_response %></pre>

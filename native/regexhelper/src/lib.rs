@@ -1,9 +1,13 @@
-use grex::RegExpBuilder;
+use grex::{Feature, RegExpBuilder};
 
 #[rustler::nif]
-fn shuffle(s: String) -> String {
+fn build_expression(s: String, repetitions: bool) -> String {
     let lines: Vec<&str> = s.lines().collect();
-    RegExpBuilder::from(&lines).build()
+    let mut regexp = RegExpBuilder::from(&lines);
+    if repetitions {
+        regexp.with_conversion_of(&[Feature::Repetition]);
+    }
+    regexp.build()
 }
 
-rustler::init!("Elixir.RegexHelper", [shuffle]);
+rustler::init!("Elixir.RegexHelper", [build_expression]);
