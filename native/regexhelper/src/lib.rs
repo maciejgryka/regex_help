@@ -8,6 +8,7 @@ fn build_expression(
     words: bool,
     repetitions: bool,
     ignore_case: bool,
+    capture_groups: bool,
 ) -> String {
     let lines: Vec<&str> = s.lines().collect();
 
@@ -27,6 +28,9 @@ fn build_expression(
     }
     if ignore_case {
         features.push(Feature::CaseInsensitivity);
+    }
+    if capture_groups {
+        features.push(Feature::CapturingGroup)
     }
 
     if features.len() > 0 {

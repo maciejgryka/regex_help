@@ -37,6 +37,9 @@ defmodule RegexHelpWeb.PageLive do
   end
 
   defp is_valid_flag(flag_name) do
-    Enum.member?(["digits", "spaces", "words", "repetitions", "ignore_case"], flag_name)
+    Enum.member?(
+      ["digits", "spaces", "words", "repetitions", "ignore_case", "capture_groups"],
+      flag_name
+    )
   end
 end
