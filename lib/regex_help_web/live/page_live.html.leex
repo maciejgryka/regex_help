@@ -1,14 +1,19 @@
 <h1>Regex help</h1>
 <textarea name="query" rows="5" cols="33" phx-keydown="update_query" phx-debounce="200"><%= @query %></textarea>
-<div>
-    <input
-        type="checkbox"
-        name="[reg]repetitions"
-        phx-click="set_flag_repetitions"
-        phx-value-enabled="<%= !@flags.repetitions %>"
-        <%= if @flags.repetitions do %>checked<% end %>
-    />
-    repetitions
-</div>
+
+<%= for flag_name <- [:digits, :spaces, :words, :repetitions, :ignore_case] do %>
+    <% flag_value = Map.get(@flags, flag_name) %>
+    <div>
+        <input
+            type="checkbox"
+            name="<%= flag_name %>"
+            phx-click="set_flag"
+            phx-value-flag="<%= flag_name %>"
+            phx-value-enabled="<%= !flag_value %>"
+            <%= if Map.get(@flags, flag_name) do %>checked<% end %>
+        />
+        <%= flag_name %>
+    </div>
+<% end %>
 
 <pre><%= @help_response %></pre>

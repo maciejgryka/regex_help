@@ -8,6 +8,7 @@ defmodule RegexHelpWeb.PageLive do
       |> assign(query: "")
       |> assign(help_response: "")
       |> assign(flags: %RegexHelper.Flags{})
+
     {:ok, socket}
   end
 
@@ -16,8 +17,8 @@ defmodule RegexHelpWeb.PageLive do
     {:noreply, build_query(socket, query, socket.assigns.flags)}
   end
 
-  def handle_event("set_flag_repetitions", %{"enabled" => enabled}, socket) do
-    flags = %RegexHelper.Flags{socket.assigns.flags | repetitions: enabled == "true"}
+  def handle_event("set_flag", %{"flag" => flag, "enabled" => enabled}, socket) do
+    flags = update_flags(socket.assigns.flags, flag, enabled == "true")
     {:noreply, build_query(socket, socket.assigns.query, flags)}
   end
 
@@ -26,5 +27,16 @@ defmodule RegexHelpWeb.PageLive do
     |> assign(query: query)
     |> assign(flags: flags)
     |> assign(help_response: RegexHelper.build(query, flags))
+  end
+
+  defp update_flags(flags, flag_name, flag_value) do
+    case is_valid_flag(flag_name) do
+      true -> Map.put(flags, String.to_atom(flag_name), flag_value)
+      false -> flags
+    end
+  end
+
+  defp is_valid_flag(flag_name) do
+    Enum.member?(["digits", "spaces", "words", "repetitions", "ignore_case"], flag_name)
   end
 end

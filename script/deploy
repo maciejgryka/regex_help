@@ -11,4 +11,4 @@ MIX_ENV=prod mix release --overwrite &&
 rsync -r _build/prod/rel/regex_help ronald:~/srv/
 
 echo "Files copied. Now SSH to the erver and do"
-echo "~/srv/regex_help/bin/regex_help restart"
+echo "sudo systemctl restart regex-help.service"
