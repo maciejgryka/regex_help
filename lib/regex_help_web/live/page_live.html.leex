@@ -17,4 +17,18 @@
     </div>
 <% end %>
 
-<pre><%= @help_response %></pre>
+<pre><%= @regex_generated %></pre>
+
+<h2>check</h2>
+<input
+    type="text"
+    style="width: 500px"
+    phx-keydown="update_regex_custom"
+    phx-debounce="200"
+    value="<%= @regex_custom %>"
+/>
+
+<h3>matches</h3>
+<%= for match <- @matches do %>
+    <%= if match do %>+<% else %>-<% end %><br>
+<% end %>

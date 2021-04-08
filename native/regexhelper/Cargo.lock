@@ -282,6 +282,7 @@ name = "regexhelper"
 version = "0.1.0"
 dependencies = [
  "grex",
+ "regex",
  "rustler",
 ]
 

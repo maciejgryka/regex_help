@@ -28,7 +28,7 @@ defmodule RegexHelper do
     end
   end
 
+  def check(_query, _regex), do: error()
   defp build_expression(_s, _d, _sp, _w, _r, _i, _cg), do: error()
-
   defp error, do: :erlang.nif_error(:nif_not_loaded)
 end

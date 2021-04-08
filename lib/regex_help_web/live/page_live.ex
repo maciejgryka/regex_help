@@ -6,7 +6,9 @@ defmodule RegexHelpWeb.PageLive do
     socket =
       socket
       |> assign(query: "")
-      |> assign(help_response: "")
+      |> assign(regex_generated: "")
+      |> assign(regex_custom: "")
+      |> assign(matches: [])
       |> assign(flags: %RegexHelper.Flags{})
 
     {:ok, socket}
@@ -15,6 +17,18 @@ defmodule RegexHelpWeb.PageLive do
   @impl true
   def handle_event("update_query", %{"value" => query}, socket) do
     {:noreply, build_query(socket, query, socket.assigns.flags)}
+  end
+
+  def handle_event("update_regex_custom", %{"value" => regex_custom}, socket) do
+    lines = String.split(socket.assigns.query, "\n")
+    matches = Enum.map(lines, fn line -> RegexHelper.check(line, regex_custom) end)
+
+    socket =
+      socket
+      |> assign(:regex_custom, regex_custom)
+      |> assign(:matches, matches)
+
+    {:noreply, socket}
   end
 
   def handle_event("set_flag", %{"flag" => flag, "enabled" => enabled}, socket) do
@@ -26,7 +40,7 @@ defmodule RegexHelpWeb.PageLive do
     socket
     |> assign(query: query)
     |> assign(flags: flags)
-    |> assign(help_response: RegexHelper.build(query, flags))
+    |> assign(regex_generated: RegexHelper.build(query, flags))
   end
 
   defp update_flags(flags, flag_name, flag_value) do
