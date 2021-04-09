@@ -1,22 +1,37 @@
-<h1>Regex help</h1>
-<textarea name="query" rows="5" cols="33" phx-keydown="update_query" phx-debounce="200"><%= @query %></textarea>
+<h1 class="text-xl">Regex help</h1>
+<textarea
+    name="query"
+    rows="5"
+    cols="33"
+    phx-keydown="update_query"
+    phx-debounce="200"
+    class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+><%= @query %></textarea>
 
-<%= for flag_name <- [:digits, :spaces, :words, :repetitions, :ignore_case, :capture_groups] do %>
-    <% flag_value = Map.get(@flags, flag_name) %>
-    <div>
-        <input
-            id="flag-<%= flag_name %>"
-            type="checkbox"
-            name="<%= flag_name %>"
-            phx-click="set_flag"
-            phx-value-flag="<%= flag_name %>"
-            phx-value-enabled="<%= !flag_value %>"
-            <%= if Map.get(@flags, flag_name) do %>checked<% end %>
-        />
-        <label for="flag-<%= flag_name %>"><%= flag_name %></label>
-    </div>
-<% end %>
+<div class="max-w-lg space-y-4">
+    <%= for flag_name <- [:digits, :spaces, :words, :repetitions, :ignore_case, :capture_groups] do %>
+        <% flag_value = Map.get(@flags, flag_name) %>
+        <div class="flex items-center h-5">
+            <div class="flex items-center h-5">
+                <input
+                    id="flag-<%= flag_name %>"
+                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    type="checkbox"
+                    name="<%= flag_name %>"
+                    phx-click="set_flag"
+                    phx-value-flag="<%= flag_name %>"
+                    phx-value-enabled="<%= !flag_value %>"
+                    <%= if Map.get(@flags, flag_name) do %>checked<% end %>
+                />
+            </div>
+            <div class="ml-3 text-sm">
+                <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= flag_name %></label>
+            </div>
+        </div>
+    <% end %>
+</div>
 
+<h2>result</h2>
 <pre><%= @regex_generated %></pre>
 
 <h2>check</h2>
