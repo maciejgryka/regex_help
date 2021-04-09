@@ -1,23 +1,14 @@
 <div class="mx-auto sm:max-w-lg">
-    <div class="grid grid-cols-11 ">
-        <div class="col-span-10">
-            <label for="query" class="text-lg">Enter your examples</h2>
-            <textarea
-                id="query"
-                name="query"
-                rows="5"
-                phx-keydown="update_query"
-                phx-debounce="200"
-                class="mt-2 shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
-            ><%= @query %></textarea>
-        </div>
-        <div class="col-span-1">
-            <div class="p-2 mt-9 bg-gray-100 rounded-md">
-                <%= for match <- @matches do %>
-                    <%= if match do %><div class="">+</div><% else %>-<% end %>
-                <% end %>
-            </div>
-        </div>
+    <div class="">
+        <label for="query" class="text-lg">Your examples</h2>
+        <textarea
+            id="query"
+            name="query"
+            rows="5"
+            phx-keydown="update_query"
+            phx-debounce="200"
+            class="mt-2 shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
+        ><%= @query %></textarea>
     </div>
 
     <div class="mt-10 w-full space-y-4">
@@ -43,20 +34,40 @@
         <% end %>
     </div>
 
-    <div class="mt-10">
-        <h2 class="text-lg">Result</h2>
-        <pre class="mt-2 h-12 p-2 bg-gray-100 overflow-x-scroll rounded-md"><%= @regex_generated %></pre>
-    </div>
+    <%= if @query != "" do %>
+        <div class="mt-10">
+            <h2 class="text-lg">Generated Expression</h2>
+            <textarea disabled rows=1 class="w-full h-11 mt-2 pt-3 text-sm text-center font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
+            <div class="mt-10 w-full text-center">
+                <button type="button" phx-click="copy_generated" class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                    <span class="mx-2">Copy & Adjust</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-    <div class="mt-10">
-        <label for="check" class="text-lg">Check</h2>
-        <input
-            id="check"
-            class="mt-2 shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
-            type="text"
-            phx-keydown="update_regex_custom"
-            phx-debounce="200"
-            value="<%= @regex_custom %>"
-        />
-    </div>
+        <div class="mt-8">
+            <label for="check" class="text-lg">Check</h2>
+            <input
+                id="check"
+                class="mt-2 font-mono text-center shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
+                type="text"
+                phx-keydown="update_regex_custom"
+                phx-debounce="200"
+                value="<%= @regex_custom %>"
+            />
+            <div class="">
+                <div class="w-full mt-2 p-3 text-sm font-mono bg-gray-100 border-none rounded-md">
+                    <%= for {match, line} <- Enum.zip(@matches, @lines) do %>
+                        <div class="<%= if match do %>text-green-600<% else %>text-red-600<% end %>"><%= line %></div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    <% end %>
 </div>
