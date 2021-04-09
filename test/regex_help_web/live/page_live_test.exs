@@ -5,7 +5,7 @@ defmodule RegexHelpWeb.PageLiveTest do
 
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "Regex help"
-    assert render(page_live) =~ "Regex help"
+    assert disconnected_html =~ "Enter your examples here:"
+    assert render(page_live) =~ "Enter your examples here:"
   end
 end
