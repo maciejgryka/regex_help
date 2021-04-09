@@ -16,7 +16,6 @@ defmodule RegexHelpWeb.PageLive do
 
   @impl true
   def handle_event("update_query", %{"value" => query}, socket) do
-    IO.inspect(query)
     {:noreply, build_query(socket, query, socket.assigns.flags)}
   end
 
