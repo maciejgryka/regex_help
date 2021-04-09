@@ -11,25 +11,29 @@
         ><%= @query %></textarea>
     </div>
 
-    <div class="mt-10 w-full space-y-4">
-        <%= for flag_name <- [:digits, :spaces, :words, :repetitions, :ignore_case, :capture_groups] do %>
-            <% flag_value = Map.get(@flags, flag_name) %>
-            <div class="flex items-center h-5">
-                <div class="flex items-center h-5">
-                    <input
-                        id="flag-<%= flag_name %>"
-                        class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300 rounded"
-                        type="checkbox"
-                        name="<%= flag_name %>"
-                        phx-click="set_flag"
-                        phx-value-flag="<%= flag_name %>"
-                        phx-value-enabled="<%= !flag_value %>"
-                        <%= if Map.get(@flags, flag_name) do %>checked<% end %>
-                    />
-                </div>
-                <div class="ml-3 text-sm">
-                    <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= flag_name %></label>
-                </div>
+    <div class="mt-10 w-full grid grid-cols-2">
+        <%= for col_flag_names <- [[:digits, :spaces, :words], [:repetitions, :ignore_case, :capture_groups]] do %>
+            <div class="space-y-2">
+                <%= for flag_name <- col_flag_names do %>
+                    <% flag_value = Map.get(@flags, flag_name) %>
+                    <div class="flex items-center h-5">
+                        <div class="flex items-center h-5">
+                            <input
+                                id="flag-<%= flag_name %>"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300 rounded"
+                                type="checkbox"
+                                name="<%= flag_name %>"
+                                phx-click="set_flag"
+                                phx-value-flag="<%= flag_name %>"
+                                phx-value-enabled="<%= !flag_value %>"
+                                <%= if Map.get(@flags, flag_name) do %>checked<% end %>
+                            />
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= flag_name %></label>
+                        </div>
+                    </div>
+                <% end %>
             </div>
         <% end %>
     </div>
