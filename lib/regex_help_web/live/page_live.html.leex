@@ -1,6 +1,6 @@
 <div class="mx-auto sm:max-w-lg">
     <div class="">
-        <label for="query" class="text-lg">Your examples</h2>
+        <label for="query" class="text-lg">Enter your examples here:</h2>
         <textarea
             id="query"
             name="query"
@@ -34,7 +34,11 @@
         <% end %>
     </div>
 
-    <%= if @query != "" do %>
+    <%= if @query == "" do %>
+        <div class="mt-10">
+            <h2 class="text-lg">Your regex will be generated here...</h2>
+        </div>
+    <% else %>
         <div class="mt-10">
             <h2 class="text-lg">Generated Expression</h2>
             <textarea disabled rows=1 class="w-full h-11 mt-2 pt-3 text-sm text-center font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>

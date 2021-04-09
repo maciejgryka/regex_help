@@ -5,10 +5,7 @@ defmodule RegexHelpWeb.PageLive do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(query: "www.example.com
-www.example.org
-example.com
-example.org")
+      |> assign(query: "")
       |> assign(regex_generated: "")
       |> assign(regex_custom: "")
       |> assign(matches: [])
