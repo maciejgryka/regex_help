@@ -43,7 +43,7 @@ defmodule RegexHelpWeb.PageLive do
 
   defp update_custom(socket, regex_custom) do
     lines = String.split(socket.assigns.query, "\n")
-    matches = Enum.map(lines, fn line -> RegexHelper.check(line, regex_custom) end)
+    matches = RegexHelper.check(lines, regex_custom)
 
     socket
     |> assign(:regex_custom, regex_custom)

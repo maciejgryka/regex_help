@@ -42,10 +42,10 @@ fn build_expression(
 }
 
 #[rustler::nif]
-fn check(query: &str, expression: &str) -> bool {
+fn check(queries: Vec<String>, expression: &str) -> Vec<bool> {
     match Regex::new(expression) {
-        Ok(re) => re.is_match(query),
-        Err(_) => false
+        Ok(re) => queries.into_iter().map(|query| { re.is_match(&query) }).collect(),
+        Err(_) => queries.into_iter().map(|_| { false }).collect(),
     }
 }
 
