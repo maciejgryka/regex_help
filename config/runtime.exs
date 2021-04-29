@@ -15,7 +15,7 @@ if config_env() == :prod do
     url: [host: "#{app_name}.fly.dev", port: 80],
     check_origin: [
       "https://regex.help",
-      "https://#{app_name}.fly.dev",
+      "https://#{app_name}.fly.dev"
     ],
     http: [
       port: String.to_integer(System.get_env("PORT") || "4000"),
