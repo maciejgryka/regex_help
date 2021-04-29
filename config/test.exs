@@ -1,5 +1,7 @@
 import Config
 
+secret_key_base = "supersekrit"
+
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :regex_help, RegexHelpWeb.Endpoint,

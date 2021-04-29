@@ -17,7 +17,10 @@ defmodule RegexHelpWeb.PageLive do
 
   @impl true
   def handle_event("update_query", %{"value" => query}, socket) do
-    {:noreply, update_generated(socket, query, socket.assigns.flags)}
+    case String.length(query) > 1000 do
+      true -> {:noreply, put_flash(socket, :error, "Input too long, 1000 chars max.")}
+      false -> {:noreply, update_generated(socket, query, socket.assigns.flags)}
+    end
   end
 
   def handle_event("update_regex_custom", %{"value" => regex_custom}, socket) do
@@ -35,6 +38,7 @@ defmodule RegexHelpWeb.PageLive do
 
   defp update_generated(socket, query, flags) do
     socket
+    |> clear_flash()
     |> assign(query: query)
     |> assign(flags: flags)
     |> assign(regex_generated: RegexHelper.build(query, flags))

@@ -1,0 +1,31 @@
+# fly.toml file generated for falling-rain-8941 on 2021-04-28T21:12:57+02:00
+
+app = "falling-rain-8941"
+
+kill_signal = "SIGTERM"
+kill_timeout = 5
+
+[env]
+
+[[services]]
+  internal_port = 4000
+  protocol = "tcp"
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "30s" # allow some time for startup
+    interval = "15s"
+    port = 8080
+    restart_limit = 6
+    timeout = "2s"
