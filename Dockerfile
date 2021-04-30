@@ -1,6 +1,5 @@
 FROM ubuntu:20.04 AS build
 
-
 RUN apt-get update -q && apt-get install -yq curl locales
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8
@@ -49,21 +48,26 @@ RUN mix do compile, phx.digest, release
 
 # prepare release docker image
 FROM ubuntu:20.04 AS app
-RUN apt-get update -q && apt-get install -y libncurses5-dev libssl-dev locales
 
+RUN apt-get update -q && apt-get install -y libncurses5-dev libssl-dev locales
 RUN locale-gen en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
-WORKDIR /app
-USER nobody
-COPY --from=build --chown=nobody:nogroup /app/_build/prod/rel/regex_help ./
-
-ADD entrypoint.sh ./
-ENV HOME=/app
 ENV MIX_ENV=prod
 ENV SECRET_KEY_BASE=nokey
 ENV PORT=4000
+
+ENV USER=phoenix
+RUN groupadd -g 1000 "${USER}" && \
+    useradd --shell /bin/sh --uid 1000 --gid "${USER}" --home-dir /home/"${USER}" --create-home "${USER}" && \
+    chown "${USER}":"${USER}" /home/"${USER}"
+
+WORKDIR /app
+COPY --from=build --chown=phoenix:phoenix /app/_build/prod/rel/regex_help ./
+COPY --from=build --chown=phoenix:phoenix /app/entrypoint.sh ./
+
+ADD entrypoint.sh ./
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["bin/regex_help", "start"]
