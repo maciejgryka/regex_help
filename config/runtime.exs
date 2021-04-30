@@ -12,7 +12,7 @@ if config_env() == :prod do
 
   config :regex_help, RegexHelpWeb.Endpoint,
     server: true,
-    url: [host: "#{app_name}.fly.dev", port: 80],
+    url: [host: "regex.help", port: 80],
     check_origin: [
       "https://regex.help",
       "https://#{app_name}.fly.dev"
