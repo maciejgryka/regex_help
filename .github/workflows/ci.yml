@@ -6,40 +6,9 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        otp: ['24.0-rc3']
-        elixir: ['1.12.0-rc.1']
     steps:
       - uses: actions/checkout@v2
-      - uses: erlef/setup-elixir@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
-      - name: Retrieve Mix Dependencies Cache
-        uses: actions/cache@v1
-        id: mix-cache # id to use in retrieve action
-        with:
-          path: |
-            deps
-            _build
-            priv/plts
-          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
-      - name: Install Mix Dependencies
-        if: steps.mix-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p priv/plts
-          mix local.rebar --force
-          mix local.hex --force
-          mix deps.get
-          mix deps.compile
-      - run: mix format --check-formatted
-      - run: mix credo
-      - name: Install npm packages
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install
-        working-directory: ./assets
-      - run: npm run deploy --prefix ./assets
-      - uses: nanasess/setup-chromedriver@master
-      - run: mix test --trace
+      - name: Build Docker test image
+        run: docker build -t regex-help-test -f Dockerfile.test .
+      - name: run tests
+        run: docker run regex-help-test
