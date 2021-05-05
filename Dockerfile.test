@@ -38,13 +38,12 @@ COPY priv priv
 COPY assets assets
 
 COPY lib lib
-COPY test test
 
 RUN npm run --prefix ./assets deploy
 RUN mix phx.digest
 
 # compile and build release
-COPY rel rel
+COPY test test
 COPY native native
 COPY script script
 COPY .formatter.exs .formatter.exs

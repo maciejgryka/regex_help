@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -eu pipefail
+
+docker build -t regex-help-test -f Dockerfile.test .
+docker run --rm -it regex-help-test
