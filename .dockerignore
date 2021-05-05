@@ -2,8 +2,10 @@
 .elixir_ls/
 .github/
 Dockerfile
+Dockerfile.test
 .dockerignore
 assets/node_modules
 _build/
 deps/
 test/
++
