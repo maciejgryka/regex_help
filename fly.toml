@@ -28,7 +28,3 @@ kill_timeout = 5
     interval = "15s"
     restart_limit = 6
     timeout = "2s"
-
-[[statics]]
-  guest_path = "/app/lib/regex_help-0.1.0/priv/static/js"
-  url_prefix = "/staticjs"
