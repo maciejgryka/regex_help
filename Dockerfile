@@ -68,6 +68,4 @@ RUN groupadd -g 1000 "${USER}" && \
 WORKDIR /app
 COPY --from=build --chown=phoenix:phoenix /app/_build/prod/rel/regex_help ./
 
-ADD entrypoint.sh ./
-ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["bin/regex_help", "start"]
