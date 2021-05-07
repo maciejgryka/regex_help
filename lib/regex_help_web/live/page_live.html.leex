@@ -58,14 +58,13 @@
 
         <div class="mt-8">
             <label for="check" class="text-lg">Check</h2>
-            <input
+            <textarea
                 id="check"
                 class="mt-2 font-mono shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
-                type="text"
+                rows=<%= Enum.count(String.split(@regex_generated, "\n")) %>
                 phx-keydown="update_regex_custom"
                 phx-debounce="200"
-                value="<%= @regex_custom %>"
-            />
+            ><%= @regex_custom %></textarea>
             <div class="">
                 <div class="w-full mt-2 p-3 text-sm font-mono bg-gray-100 border-none rounded-md">
                     <%= for {match, line} <- Enum.zip(@matches, @lines) do %>
