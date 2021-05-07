@@ -7,7 +7,15 @@ defmodule RegexHelper do
               words: %{value: false, description: "Convert any Unicode word character to \\w"},
               repetitions: %{value: false, description: "Convert repeated substrings to {min,max}"},
               ignore_case: %{value: false, description: "Ignore capitalization"},
-              capture_groups: %{value: false, description: "Use capturing groups"}
+              capture_groups: %{value: false, description: "Use capturing groups"},
+              verbose: %{value: false, description: "Multi-line output"}
+
+      @spec names :: list
+      def names() do
+        %__MODULE__{}
+        |> Map.keys()
+        |> Enum.reject(&(&1 == :__struct__))
+      end
   end
 
   def build(s, flags) do
@@ -23,12 +31,13 @@ defmodule RegexHelper do
           flags.words.value,
           flags.repetitions.value,
           flags.ignore_case.value,
-          flags.capture_groups.value
+          flags.capture_groups.value,
+          flags.verbose.value
         )
     end
   end
 
   def check(_query, _regex), do: error()
-  defp build_expression(_s, _d, _sp, _w, _r, _i, _cg), do: error()
+  defp build_expression(_s, _d, _sp, _w, _r, _i, _cg, _v), do: error()
   defp error, do: :erlang.nif_error(:nif_not_loaded)
 end

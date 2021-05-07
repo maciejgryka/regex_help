@@ -12,29 +12,25 @@
     </div>
 
     <div class="mt-10 w-full grid grid-cols-2 gap-4">
-        <%= for col_flag_names <- [[:digits, :spaces, :words], [:repetitions, :ignore_case, :capture_groups]] do %>
-            <div class="space-y-8">
-                <%= for flag_name <- col_flag_names do %>
-                    <% flag_value = Map.get(@flags, flag_name)[:value] %>
-                    <div class="flex items-center h-6">
-                        <div class="flex items-center">
-                            <input
-                                id="flag-<%= flag_name %>"
-                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300 rounded"
-                                type="checkbox"
-                                name="<%= flag_name %>"
-                                phx-click="set_flag"
-                                phx-value-flag="<%= flag_name %>"
-                                phx-value-enabled="<%= !flag_value %>"
-                                <%= if flag_value do %>checked<% end %>
-                            />
-                        </div>
-                        <div class="ml-3 text-sm">
-                            <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= Phoenix.Naming.humanize(flag_name) %></label>
-                            <p class="text-gray-500 text-sm"><%= Map.get(@flags, flag_name)[:description] %></p>
-                        </div>
-                    </div>
-                <% end %>
+        <%= for flag_name <- RegexHelper.Flags.names() do %>
+            <% flag_value = Map.get(@flags, flag_name)[:value] %>
+            <div class="mt-3 flex items-center h-6">
+                <div class="flex items-center">
+                    <input
+                        id="flag-<%= flag_name %>"
+                        class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300 rounded"
+                        type="checkbox"
+                        name="<%= flag_name %>"
+                        phx-click="set_flag"
+                        phx-value-flag="<%= flag_name %>"
+                        phx-value-enabled="<%= !flag_value %>"
+                        <%= if flag_value do %>checked<% end %>
+                    />
+                </div>
+                <div class="ml-3 text-sm">
+                    <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= Phoenix.Naming.humanize(flag_name) %></label>
+                    <p class="text-gray-500 text-sm"><%= Map.get(@flags, flag_name)[:description] %></p>
+                </div>
             </div>
         <% end %>
     </div>
@@ -46,7 +42,7 @@
     <% else %>
         <div class="mt-10">
             <h2 class="text-lg">Generated Expression</h2>
-            <textarea disabled rows=1 class="w-full h-11 mt-2 pt-3 text-sm text-center font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
+            <textarea disabled rows=<%= Enum.count(String.split(@regex_generated)) %> class="w-full mt-2 pt-3 text-sm font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
             <div class="mt-10 w-full text-center">
                 <button type="button" phx-click="copy_generated" class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,7 +60,7 @@
             <label for="check" class="text-lg">Check</h2>
             <input
                 id="check"
-                class="mt-2 font-mono text-center shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
+                class="mt-2 font-mono shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
                 type="text"
                 phx-keydown="update_regex_custom"
                 phx-debounce="200"

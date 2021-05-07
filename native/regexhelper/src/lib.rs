@@ -11,6 +11,7 @@ fn build_expression(
     repetitions: bool,
     ignore_case: bool,
     capture_groups: bool,
+    verbose: bool,
 ) -> String {
     let lines: Vec<&str> = query.lines().collect();
 
@@ -34,11 +35,14 @@ fn build_expression(
     if capture_groups {
         features.push(Feature::CapturingGroup)
     }
-
     if features.len() > 0 {
         regexp.with_conversion_of(&features);
     }
-    regexp.build()
+
+    match verbose {
+        true => regexp.with_verbose_mode().build(),
+        false => regexp.build()
+    }
 }
 
 #[rustler::nif]

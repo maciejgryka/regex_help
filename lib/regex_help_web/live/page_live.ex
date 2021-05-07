@@ -28,8 +28,14 @@ defmodule RegexHelpWeb.PageLive do
   end
 
   def handle_event("set_flag", %{"flag" => flag, "enabled" => enabled}, socket) do
-    flags = update_flags(socket.assigns.flags, flag, enabled == "true")
-    {:noreply, update_generated(socket, socket.assigns.query, flags)}
+    case is_valid_flag(flag) do
+      true ->
+        flag = String.to_atom(flag) # only after we know this is a valid flag
+        flags = update_flags(socket.assigns.flags, flag, enabled == "true")
+        {:noreply, update_generated(socket, socket.assigns.query, flags)}
+      false ->
+        {:noreply, socket}
+    end
   end
 
   def handle_event("copy_generated", _params, socket) do
@@ -55,19 +61,13 @@ defmodule RegexHelpWeb.PageLive do
   end
 
   defp update_flags(flags, flag_name, flag_value) do
-    case is_valid_flag(flag_name) do
-      true ->
-        updated_flag = %{flags.flag_name | value: flag_value}
-        Map.put(flags, String.to_atom(flag_name), updated_flag)
-      false ->
-        flags
-    end
+    updated_flag = %{Map.get(flags, flag_name) | value: flag_value}
+    Map.put(flags, flag_name, updated_flag)
   end
 
   defp is_valid_flag(flag_name) do
-    %RegexHelper.Flags{}
-    |> Map.keys()
-    |> Enum.reject(&(&1 == :__struct__))
+    RegexHelper.Flags.names()
+    |> Enum.map(&Atom.to_string/1)
     |> Enum.member?(flag_name)
   end
 end
