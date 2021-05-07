@@ -15,7 +15,7 @@
         <%= for col_flag_names <- [[:digits, :spaces, :words], [:repetitions, :ignore_case, :capture_groups]] do %>
             <div class="space-y-2">
                 <%= for flag_name <- col_flag_names do %>
-                    <% flag_value = Map.get(@flags, flag_name) %>
+                    <% flag_value = Map.get(@flags, flag_name)[:value] %>
                     <div class="flex items-center h-5">
                         <div class="flex items-center h-5">
                             <input
@@ -26,11 +26,11 @@
                                 phx-click="set_flag"
                                 phx-value-flag="<%= flag_name %>"
                                 phx-value-enabled="<%= !flag_value %>"
-                                <%= if Map.get(@flags, flag_name) do %>checked<% end %>
+                                <%= if flag_value do %>checked<% end %>
                             />
                         </div>
                         <div class="ml-3 text-sm">
-                            <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= flag_name %></label>
+                            <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= Phoenix.Naming.humanize(flag_name) %></label>
                         </div>
                     </div>
                 <% end %>

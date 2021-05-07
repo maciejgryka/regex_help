@@ -47,25 +47,27 @@ defmodule RegexHelpWeb.PageLive do
 
   defp update_custom(socket, regex_custom) do
     lines = String.split(socket.assigns.query, "\n")
-    matches = RegexHelper.check(lines, regex_custom)
 
     socket
     |> assign(:regex_custom, regex_custom)
-    |> assign(:matches, matches)
+    |> assign(:matches, RegexHelper.check(lines, regex_custom))
     |> assign(:lines, lines)
   end
 
   defp update_flags(flags, flag_name, flag_value) do
     case is_valid_flag(flag_name) do
-      true -> Map.put(flags, String.to_atom(flag_name), flag_value)
-      false -> flags
+      true ->
+        updated_flag = %{flags.flag_name | value: flag_value}
+        Map.put(flags, String.to_atom(flag_name), updated_flag)
+      false ->
+        flags
     end
   end
 
   defp is_valid_flag(flag_name) do
-    Enum.member?(
-      ["digits", "spaces", "words", "repetitions", "ignore_case", "capture_groups"],
-      flag_name
-    )
+    %RegexHelper.Flags{}
+    |> Map.keys()
+    |> Enum.reject(&(&1 == :__struct__))
+    |> Enum.member?(flag_name)
   end
 end
