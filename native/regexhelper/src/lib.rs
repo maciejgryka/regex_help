@@ -12,37 +12,27 @@ fn build_expression(
     ignore_case: bool,
     capture_groups: bool,
     verbose: bool,
+    escape: bool
 ) -> String {
     let lines: Vec<&str> = query.lines().collect();
 
     let mut regexp = RegExpBuilder::from(&lines);
+
     let mut features: Vec<Feature> = Vec::new();
-    if digits {
-        features.push(Feature::Digit);
-    }
-    if spaces {
-        features.push(Feature::Space);
-    }
-    if words {
-        features.push(Feature::Word);
-    }
-    if repetitions {
-        features.push(Feature::Repetition);
-    }
-    if ignore_case {
-        features.push(Feature::CaseInsensitivity);
-    }
-    if capture_groups {
-        features.push(Feature::CapturingGroup)
-    }
+    if digits { features.push(Feature::Digit); }
+    if spaces { features.push(Feature::Space); }
+    if words { features.push(Feature::Word); }
+    if repetitions { features.push(Feature::Repetition); }
+    if ignore_case { features.push(Feature::CaseInsensitivity); }
+    if capture_groups { features.push(Feature::CapturingGroup) }
     if features.len() > 0 {
         regexp.with_conversion_of(&features);
     }
+    
+    if verbose { regexp.with_verbose_mode(); }
+    if escape { regexp.with_escaping_of_non_ascii_chars(false); }
 
-    match verbose {
-        true => regexp.with_verbose_mode().build(),
-        false => regexp.build()
-    }
+    regexp.build()
 }
 
 #[rustler::nif]

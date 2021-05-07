@@ -42,7 +42,7 @@
     <% else %>
         <div class="mt-10">
             <h2 class="text-lg">Generated Expression</h2>
-            <textarea disabled rows=<%= Enum.count(String.split(@regex_generated)) %> class="w-full mt-2 pt-3 text-sm font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
+            <textarea disabled rows=<%= Enum.count(String.split(@regex_generated, "\n")) %> class="w-full mt-2 pt-3 text-sm font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
             <div class="mt-10 w-full text-center">
                 <button type="button" phx-click="copy_generated" class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

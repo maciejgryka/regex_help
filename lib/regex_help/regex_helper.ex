@@ -8,7 +8,8 @@ defmodule RegexHelper do
               repetitions: %{value: false, description: "Convert repeated substrings to {min,max}"},
               ignore_case: %{value: false, description: "Ignore capitalization"},
               capture_groups: %{value: false, description: "Use capturing groups"},
-              verbose: %{value: false, description: "Multi-line output"}
+              verbose: %{value: false, description: "Multi-line output"},
+              escape: %{value: false, description: "Escape non-ASCII characters"}
 
       @spec names :: list
       def names() do
@@ -32,12 +33,13 @@ defmodule RegexHelper do
           flags.repetitions.value,
           flags.ignore_case.value,
           flags.capture_groups.value,
-          flags.verbose.value
+          flags.verbose.value,
+          flags.escape.value
         )
     end
   end
 
   def check(_query, _regex), do: error()
-  defp build_expression(_s, _d, _sp, _w, _r, _i, _cg, _v), do: error()
+  defp build_expression(_s, _d, _sp, _w, _r, _i, _cg, _v, _e), do: error()
   defp error, do: :erlang.nif_error(:nif_not_loaded)
 end
