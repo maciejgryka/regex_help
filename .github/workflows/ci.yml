@@ -1,14 +1,21 @@
 on: push
 
 env:
-  MIX_ENV: test
+  MIX_ENV: "test"
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build Docker test image
-        run: docker build -t regex-help-test -f Dockerfile.test .
-      - name: run tests
-        run: docker run regex-help-test
+
+      - uses: whoan/docker-build-with-cache-action@fix-yaml-parsing
+        with:
+          username: maciejgryka
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          registry: docker.pkg.github.com
+          image_name: regex-help-test
+          dockerfile: Dockerfile.test
+
+      - name: Run tests
+        run: docker run docker.pkg.github.com/maciejgryka/regex_help/regex-help-test
