@@ -5,18 +5,21 @@ defmodule RegexHelper do
     defstruct digits: %{value: false, description: "Convert digits to \\d"},
               spaces: %{value: false, description: "Convert whitespace to \\s"},
               words: %{value: false, description: "Convert any Unicode word character to \\w"},
-              repetitions: %{value: false, description: "Convert repeated substrings to {min,max}"},
+              repetitions: %{
+                value: false,
+                description: "Convert repeated substrings to {min,max}"
+              },
               ignore_case: %{value: false, description: "Ignore capitalization"},
               capture_groups: %{value: false, description: "Use capturing groups"},
               verbose: %{value: false, description: "Multi-line output"},
               escape: %{value: false, description: "Escape non-ASCII characters"}
 
-      @spec names :: list
-      def names() do
-        %__MODULE__{}
-        |> Map.keys()
-        |> Enum.reject(&(&1 == :__struct__))
-      end
+    @spec names :: list
+    def names do
+      %__MODULE__{}
+      |> Map.keys()
+      |> Enum.reject(&(&1 == :__struct__))
+    end
   end
 
   def build(s, flags) do

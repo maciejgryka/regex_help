@@ -17,7 +17,8 @@
         {Credo.Check.Consistency.UnusedVariableNames, []},
 
         # disabled checks
-        {Credo.Check.Readability.ModuleDoc, false}
+        {Credo.Check.Readability.ModuleDoc, false},
+        {Credo.Check.Refactor.FunctionArity, false}
       ]
     }
   ]

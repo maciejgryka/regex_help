@@ -30,9 +30,11 @@ defmodule RegexHelpWeb.PageLive do
   def handle_event("set_flag", %{"flag" => flag, "enabled" => enabled}, socket) do
     case is_valid_flag(flag) do
       true ->
-        flag = String.to_atom(flag) # only after we know this is a valid flag
+        # only after we know this is a valid flag
+        flag = String.to_atom(flag)
         flags = update_flags(socket.assigns.flags, flag, enabled == "true")
         {:noreply, update_generated(socket, socket.assigns.query, flags)}
+
       false ->
         {:noreply, socket}
     end
