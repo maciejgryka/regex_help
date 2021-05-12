@@ -5,6 +5,7 @@ env:
 
 jobs:
   test:
+    name: Run tests
     env:
       MIX_ENV: test
     runs-on: ubuntu-latest
@@ -23,12 +24,13 @@ jobs:
         run: docker run docker.pkg.github.com/maciejgryka/regex_help/regex-help-test
 
   deploy:
+    name: Deploy to fly
     env:
       MIX_ENV: prod
-    name: Deploy app
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
-          args: "deploy"
+          args: "deploy --remote-only"
