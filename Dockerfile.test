@@ -43,10 +43,12 @@ RUN npm run --prefix ./assets deploy
 RUN mix phx.digest
 
 # compile and build release
-COPY test test
+COPY rel rel
 COPY native native
+COPY test test
 COPY script script
 COPY .formatter.exs .formatter.exs
 COPY .credo.exs .credo.exs
 RUN mix compile
+
 CMD ./script/test

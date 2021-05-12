@@ -11,7 +11,7 @@ if config_env() == :prod do
   config :regex_help, RegexHelpWeb.Endpoint,
     server: true,
     url: [host: "regex.help", port: 80],
-    check_origin: ["https://regex.help"],
+    check_origin: ["https://regex.help", "https://regex-help-stg.fly.dev/"],
     http: [
       port: String.to_integer(System.get_env("PORT") || "4000"),
       transport_options: [socket_opts: [:inet6]]
