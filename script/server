@@ -2,4 +2,8 @@
 
 set -eu pipefail
 
-NODE_ENV=development mix phx.server
+export AUTH_USERNAME=admin
+export AUTH_PASSWORD=password
+export NODE_ENV=development
+
+mix phx.server
