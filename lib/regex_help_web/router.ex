@@ -15,11 +15,21 @@ defmodule RegexHelpWeb.Router do
     plug :admin_basic_auth
   end
 
+  pipeline :metrics do
+    plug :put_root_layout, {RegexHelpWeb.LayoutView, :metrics}
+    plug :put_layout, {RegexHelpWeb.LayoutView, :metrics}
+  end
+
   scope "/", RegexHelpWeb do
     pipe_through :browser
 
-    get "/about", AboutController, :index
     live "/", PageLive, :index
+    get "/about", AboutController, :index
+  end
+
+  scope "/", RegexHelpWeb do
+    pipe_through [:browser, :metrics]
+    get "/metrics", MetricsController, :index
   end
 
   scope "/" do

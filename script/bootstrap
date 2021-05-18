@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -uo pipefail
+
+add_asdf_plugin() {
+  asdf plugin add $1
+  exit_val=$?
+
+  # asdf will return an exit value of 2 if the plugin has already been added 
+  # so we need to check for that otherwise the script will exit prematurely
+  if [ $exit_val -eq 0 ] || [ $exit_val -eq 2 ]
+    then
+      return
+    else
+      exit $?
+  fi
+}
+
+add_asdf_plugin "erlang"
+add_asdf_plugin "elixir"
+add_asdf_plugin "nodejs"
+add_asdf_plugin "rust"
+
+asdf install
+npm --prefix assets install
+mix deps.get
