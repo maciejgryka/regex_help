@@ -3,10 +3,6 @@ defmodule RegexHelpWeb.Metrics do
 
   @name __MODULE__
 
-  def start_link(_params) do
-    GenServer.start_link(__MODULE__, %{visits: 0}, name: @name)
-  end
-
   @impl true
   def init(state) do
     {:ok, state}
@@ -23,11 +19,15 @@ defmodule RegexHelpWeb.Metrics do
     {:reply, [], state}
   end
 
-  def num_visits() do
+  def start_link(_params) do
+    GenServer.start_link(__MODULE__, %{visits: 0}, name: @name)
+  end
+
+  def num_visits do
     GenServer.call(__MODULE__, :num_visits)
   end
 
-  def visit() do
+  def visit do
     GenServer.call(__MODULE__, :visit)
   end
 end
