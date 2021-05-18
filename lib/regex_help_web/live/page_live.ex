@@ -1,8 +1,12 @@
 defmodule RegexHelpWeb.PageLive do
   use RegexHelpWeb, :live_view
 
+  alias RegexHelpWeb.Metrics
+
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket), do: Metrics.visit()
+
     socket =
       socket
       |> assign(query: "")
