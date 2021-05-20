@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     container: gcr.io/rf-public-images/rainforest-cli
     steps:
-      - run: rainforest-cli run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --release "$GITHUB_REF"
+      - run: rainforest-cli run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --description "regex.help:$GITHUB_REF" --release "$GITHUB_SHA"
 
   deploy-prd:
     name: Deploy to prod
