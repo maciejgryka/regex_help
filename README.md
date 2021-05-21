@@ -1,5 +1,7 @@
 # RegexHelp
 
+Visit [regex.help](https://regex.help/) to try this out.
+
 This [LiveView](https://github.com/phoenixframework/phoenix_live_view) app is a web front-end for [`grex`](https://github.com/pemistahl/grex).
 
 To try it out:
