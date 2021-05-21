@@ -11,5 +11,5 @@ crate-type = ["dylib"]
 
 [dependencies]
 regex = "1"
-rustler = "0.22.0-rc.0"
+rustler = {git = "git://github.com/rusterlium/rustler.git", branch="master"}
 grex = "1.2.0"
