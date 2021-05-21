@@ -30,5 +30,5 @@ kill_timeout = 5
     timeout = "2s"
 
 [metrics]
-    port = 9091
+    port = 80
     path = "/metrics"
