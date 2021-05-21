@@ -95,14 +95,10 @@ COPY native native
 RUN mix do compile, release
 
 # prepare release docker image
-FROM erlang:24.0 AS app
+FROM erlang:24.0-slim AS app
 
-RUN apt-get update -q && apt-get install -y libncurses5-dev libssl-dev locales
-RUN locale-gen en_US.UTF-8
+RUN apt-get update -q && apt-get install -y libncurses5-dev libssl-dev
 
-ENV LANG=en_US.UTF-8
-ENV LANGUAGE=en_US:en
-ENV LC_ALL=en_US.UTF-8
 ENV MIX_ENV=prod
 ENV SECRET_KEY_BASE=nokey
 ENV PORT=4000

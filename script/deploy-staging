@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -eu pipefail
+
+DOCKER_BUILDKIT=1 fly deploy --config fly.staging.toml --dockerfile Dockerfile
