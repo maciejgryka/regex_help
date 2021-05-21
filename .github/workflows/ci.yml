@@ -5,10 +5,10 @@ env:
 
 jobs:
   unit-test:
+    runs-on: ubuntu-latest
     name: Run tests
     env:
       MIX_ENV: test
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -24,31 +24,52 @@ jobs:
         run: docker run docker.pkg.github.com/maciejgryka/regex_help/regex-help-test
 
   deploy-stg:
+    runs-on: ubuntu-latest
     name: Deploy to staging
     env:
       MIX_ENV: prod
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
           args: "deploy --remote-only --config fly.staging.toml --dockerfile Dockerfile"
 
-  test-rf:
-    name: Run Rainforest tests
-    needs: [unit-test, deploy-stg]
+  stg-up:
     runs-on: ubuntu-latest
+    name: Scale up staging
+    needs: deploy-stg
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "--config fly.staging.toml scale count 1 --verbose"
+
+  test-rf:
+    runs-on: ubuntu-latest
+    name: Run Rainforest tests
+    needs: [unit-test, deploy-stg, stg-up]
     container: gcr.io/rf-public-images/rainforest-cli
     steps:
       - run: rainforest-cli run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --description "regex.help:$GITHUB_REF" --release "$GITHUB_SHA"
 
-  deploy-prd:
-    name: Deploy to prod
+  stg-down:
+    runs-on: ubuntu-latest
+    name: Scale down staging
     needs: test-rf
-    if: github.ref == 'refs/heads/main'
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "--config fly.staging.toml scale count 0 --verbose"
+
+  deploy-prd:
+    runs-on: ubuntu-latest
+    name: Deploy to prod
     env:
       MIX_ENV: prod
-    runs-on: ubuntu-latest
+    needs: test-rf
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
