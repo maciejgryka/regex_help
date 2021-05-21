@@ -1,21 +1,15 @@
 # RegexHelp
 
-To start your Phoenix server:
+This [LiveView](https://github.com/phoenixframework/phoenix_live_view) app is a web front-end for [`grex`](https://github.com/pemistahl/grex).
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+To try it out:
+
+  * Install [asdf](https://asdf-vm.com/#/core-manage-asdf?id=install)
+  * Install all the dependencies `script/bootstrap`
+  * Start server with `script/server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-# Create a new release
+# Deployment
 
-```bash
-./script/deploy
-```
-
-# Notes
-
-## The asset pipeline
-- The raw assets are owned by node and need to be compiled to `priv/static`.
-- From there, they're digested by `mix phx.digest` and copied over to the release with `mix release`?
+This app is hosted on [`fly`](https://fly.io) and [deploys using GitHub Actions](https://github.com/maciejgryka/regex_help/blob/main/.github/workflows/ci.yml).
