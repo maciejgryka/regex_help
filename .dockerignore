@@ -7,4 +7,5 @@ Dockerfile.test
 assets/node_modules
 _build/
 deps/
-+
+fly.toml
+fly.qa.toml

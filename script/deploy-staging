@@ -2,4 +2,4 @@
 
 set -eu pipefail
 
-DOCKER_BUILDKIT=1 fly deploy --config fly.staging.toml --dockerfile Dockerfile
+fly deploy --config fly.qa.toml --dockerfile Dockerfile

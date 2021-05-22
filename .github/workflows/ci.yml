@@ -18,50 +18,51 @@ jobs:
           password: "${{ secrets.GITHUB_TOKEN }}"
           registry: docker.pkg.github.com
           image_name: regex-help-test
-          dockerfile: Dockerfile.test
+          dockerfile: Dockerfile
+          build_extra_args: "--target test"
 
       - name: Run tests
         run: docker run docker.pkg.github.com/maciejgryka/regex_help/regex-help-test
 
-  deploy-stg:
+  qa-up:
     runs-on: ubuntu-latest
-    name: Deploy to staging
+    name: Scale up QA
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "--config fly.qa.toml scale count 1 --verbose"
+
+  deploy-qa:
+    runs-on: ubuntu-latest
+    name: Deploy to QA
+    needs: qa-up
     env:
       MIX_ENV: prod
     steps:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
-          args: "deploy --remote-only --config fly.staging.toml --dockerfile Dockerfile"
-
-  stg-up:
-    runs-on: ubuntu-latest
-    name: Scale up staging
-    needs: deploy-stg
-    steps:
-      - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions@1.1
-        with:
-          args: "--config fly.staging.toml scale count 1 --verbose"
+          args: "deploy --remote-only --config fly.qa.toml --dockerfile Dockerfile"
 
   test-rf:
     runs-on: ubuntu-latest
     name: Run Rainforest tests
-    needs: [unit-test, deploy-stg, stg-up]
+    needs: [unit-test, deploy-qa, qa-up]
     container: gcr.io/rf-public-images/rainforest-cli
     steps:
       - run: rainforest-cli run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --description "regex.help:$GITHUB_REF" --release "$GITHUB_SHA"
 
-  stg-down:
+  qa-down:
     runs-on: ubuntu-latest
-    name: Scale down staging
+    name: Scale down QA
     needs: test-rf
     if: ${{ always() }}
     steps:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
-          args: "--config fly.staging.toml scale count 0 --verbose"
+          args: "--config fly.qa.toml scale count 0 --verbose"
 
   deploy-prd:
     runs-on: ubuntu-latest
