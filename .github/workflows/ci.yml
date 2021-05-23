@@ -31,7 +31,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
-          args: "--config fly.qa.toml scale count 1 --verbose"
+          args: "--config fly.qa.toml scale count 1"
+      # repeat, because flyctl doesn't always work as it shouild and the call is indempotent
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "--config fly.qa.toml scale count 1"
 
   deploy-qa:
     runs-on: ubuntu-latest
@@ -62,7 +66,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@1.1
         with:
-          args: "--config fly.qa.toml scale count 0 --verbose"
+          args: "--config fly.qa.toml scale count 0"
+      - uses: superfly/flyctl-actions@1.1
+        with:
+          args: "--config fly.qa.toml scale count 0"
 
   deploy-prd:
     runs-on: ubuntu-latest
