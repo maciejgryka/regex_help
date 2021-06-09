@@ -1,20 +1,20 @@
 <div class="mt-6 mx-auto sm:max-w-2xl">
     <div class="">
-        <label for="query" class="text-lg">Enter your examples here:</h2>
+        <label for="query" class="mx-2 sm:mx-0 text-lg">Enter your examples here:</h2>
         <textarea
             id="query"
             name="query"
             rows="5"
             phx-keydown="update_query"
             phx-debounce="200"
-            class="mt-2 shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
+            class="mt-2 shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 sm:rounded-md"
         ><%= @query %></textarea>
     </div>
 
-    <div class="mt-10 w-full grid grid-cols-2 gap-4">
+    <div class="mx-2 sm:mx-0 mt-0 sm:mt-10 w-full grid grid-cols-2 gap-4">
         <%= for flag_name <- RegexHelper.Flags.names() do %>
             <% flag_value = Map.get(@flags, flag_name)[:value] %>
-            <div class="mt-3 flex items-center h-6">
+            <div class="mt-6 sm:mt-3 flex items-center h-6">
                 <div class="flex items-center">
                     <input
                         id="flag-<%= flag_name %>"
@@ -36,8 +36,8 @@
     </div>
 
     <%= if @query == "" do %>
-        <div class="mt-10">
-            <h2 class="text-lg">And <a href="https://github.com/pemistahl/grex">grex</a> will generate a matching pattern here...</h2>
+        <div class="mx-2 sm:mx-0 mt-10 text-center ">
+            <h2 class="text-lg">And <a href="https://github.com/pemistahl/grex">grex</a> will generate a matching pattern.</h2>
         </div>
     <% else %>
         <div class="mt-10">

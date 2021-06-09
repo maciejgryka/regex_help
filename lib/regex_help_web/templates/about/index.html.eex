@@ -1,6 +1,6 @@
-<div class="mx-auto sm:max-w-lg">
+<div class="mx-5 sm:mx-auto sm:max-w-lg">
     <div class="text-center">
-        <h2 class="text-lg font-semibold">What's this about then?</h2>
+        <h2 class="text-lg font-semibold">About</h2>
     </div>
     <div class="mt-2 space-y-4">
         <p>
