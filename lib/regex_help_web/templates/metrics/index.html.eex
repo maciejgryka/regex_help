@@ -1,1 +1,0 @@
-regex_help_num_visits <%= @num_visits %>

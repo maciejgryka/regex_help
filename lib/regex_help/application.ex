@@ -9,7 +9,6 @@ defmodule RegexHelp.Application do
     children = [
       # Start the Telemetry supervisor
       RegexHelpWeb.Telemetry,
-      RegexHelpWeb.Metrics,
       # Start the PubSub system
       {Phoenix.PubSub, name: RegexHelp.PubSub},
       # Start the Endpoint (http/https)

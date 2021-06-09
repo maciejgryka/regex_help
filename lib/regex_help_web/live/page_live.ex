@@ -3,12 +3,9 @@ defmodule RegexHelpWeb.PageLive do
 
   alias Phoenix.LiveView.Socket
   alias RegexHelper.Flags
-  alias RegexHelpWeb.Metrics
 
   @impl true
   def mount(_params, _session, socket) do
-    if connected?(socket), do: Metrics.visit()
-
     socket =
       socket
       |> assign(query: "")
