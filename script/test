@@ -5,4 +5,3 @@ set -eu pipefail
 mix format --check-formatted
 mix credo
 mix test --trace
-mix dialyzer
