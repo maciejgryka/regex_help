@@ -1,6 +1,8 @@
 defmodule RegexHelpWeb.PageLive do
   use RegexHelpWeb, :live_view
 
+  alias Phoenix.LiveView.Socket
+  alias RegexHelper.Flags
   alias RegexHelpWeb.Metrics
 
   @impl true
@@ -48,6 +50,7 @@ defmodule RegexHelpWeb.PageLive do
     {:noreply, update_custom(socket, socket.assigns.regex_generated)}
   end
 
+  @spec update_generated(Socket.t(), String.t(), Flags.t()) :: Socket.t()
   defp update_generated(socket, query, flags) do
     socket
     |> clear_flash()
@@ -57,6 +60,7 @@ defmodule RegexHelpWeb.PageLive do
     |> update_custom(socket.assigns.regex_custom)
   end
 
+  @spec update_custom(Socket.t(), String.t()) :: Socket.t()
   defp update_custom(socket, regex_custom) do
     lines = String.split(socket.assigns.query, "\n")
 
@@ -66,13 +70,15 @@ defmodule RegexHelpWeb.PageLive do
     |> assign(:lines, lines)
   end
 
+  @spec update_flags(Flags.t(), atom(), boolean()) :: Flags.t()
   defp update_flags(flags, flag_name, flag_value) do
     updated_flag = %{Map.get(flags, flag_name) | value: flag_value}
     Map.put(flags, flag_name, updated_flag)
   end
 
+  @spec is_valid_flag(String.t()) :: boolean()
   defp is_valid_flag(flag_name) do
-    RegexHelper.Flags.names()
+    Flags.names()
     |> Enum.map(&Atom.to_string/1)
     |> Enum.member?(flag_name)
   end

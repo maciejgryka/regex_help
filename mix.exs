@@ -45,9 +45,11 @@ defmodule RegexHelp.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:rustler,
-       git: "git://github.com/rusterlium/rustler.git", branch: "master", sparse: "rustler_mix"},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:rustler, "~> 0.22.0-rc.1"},
+      # {:rustler,
+      #  git: "git://github.com/rusterlium/rustler.git", branch: "master", sparse: "rustler_mix"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 
