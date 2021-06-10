@@ -1,5 +1,5 @@
 # install Elixir deps
-FROM elixir:1.12 AS build_elixir
+FROM elixir:1.12.1 AS build_elixir
 WORKDIR /app
 ENV LANG=C.UTF-8 \
     LANGUAGE=C:en \
@@ -88,7 +88,7 @@ COPY native native
 RUN mix do compile, release
 
 # prepare release docker image
-FROM erlang:24.0-slim AS app
+FROM erlang:24.0.2-slim AS app
 WORKDIR /app
 ENV LANG=C.UTF-8 \
     LANGUAGE=C:en \
