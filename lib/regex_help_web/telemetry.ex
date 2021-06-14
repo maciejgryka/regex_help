@@ -30,6 +30,29 @@ defmodule RegexHelpWeb.Telemetry do
         unit: {:native, :millisecond}
       ),
 
+      # LiveView
+      summary("phoenix.live_view.mount.stop.duration",
+        tags: [:view],
+        tag_values: fn metadata ->
+          Map.put(metadata, :view, "#{inspect(metadata.socket.view)}")
+        end,
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.live_view.handle_params.stop.duration",
+        tags: [:view],
+        tag_values: fn metadata ->
+          Map.put(metadata, :view, "#{inspect(metadata.socket.view)}")
+        end,
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.live_view.handle_event.stop.duration",
+        tags: [:view, :event],
+        tag_values: fn metadata ->
+          Map.put(metadata, :view, "#{inspect(metadata.socket.view)}")
+        end,
+        unit: {:native, :millisecond}
+      ),
+
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
       summary("vm.total_run_queue_lengths.total"),
