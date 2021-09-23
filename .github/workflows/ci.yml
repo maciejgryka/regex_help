@@ -29,11 +29,11 @@ jobs:
     name: Scale up QA
     steps:
       - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions@1.1
+      - uses: superfly/flyctl-actions@master
         with:
           args: "--config fly.qa.toml scale count 1"
       # repeat, because flyctl doesn't always work as it shouild and the call is indempotent
-      - uses: superfly/flyctl-actions@1.1
+      - uses: superfly/flyctl-actions@master
         with:
           args: "--config fly.qa.toml scale count 1"
 
@@ -45,7 +45,7 @@ jobs:
       MIX_ENV: prod
     steps:
       - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions@1.1
+      - uses: superfly/flyctl-actions@master
         with:
           args: "deploy --remote-only --config fly.qa.toml --dockerfile Dockerfile"
 
@@ -64,10 +64,10 @@ jobs:
     if: ${{ always() }}
     steps:
       - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions@1.1
+      - uses: superfly/flyctl-actions@master
         with:
           args: "--config fly.qa.toml scale count 0"
-      - uses: superfly/flyctl-actions@1.1
+      - uses: superfly/flyctl-actions@master
         with:
           args: "--config fly.qa.toml scale count 0"
 
@@ -80,6 +80,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions@1.1
+      - uses: superfly/flyctl-actions@master
         with:
           args: "deploy --remote-only --config fly.toml --dockerfile Dockerfile"
