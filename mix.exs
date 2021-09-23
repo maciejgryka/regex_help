@@ -33,21 +33,21 @@ defmodule RegexHelp.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.13"},
-      {:phoenix_live_view, "~> 0.15.5"},
-      {:floki, ">= 0.27.0", only: :test},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.4"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
-      {:reverse_proxy_plug, "~> 1.3.2"},
-      {:rustler, "~> 0.22.0-rc.1"},
+      {:phoenix, "~> 1.5"},
+      {:phoenix_live_view, "~> 0.16.4"},
+      {:floki, "~> 0.31.0", only: :test},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.5.2"},
+      {:telemetry_metrics, "~> 0.6.1"},
+      {:telemetry_poller, "~> 1.0"},
+      {:gettext, "~> 0.18.2"},
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.5"},
+      {:reverse_proxy_plug, "~> 2.1"},
+      {:rustler, "~> 0.22.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false}
     ]
   end
 
