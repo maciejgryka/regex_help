@@ -1,6 +1,6 @@
 <div class="mt-6 mx-auto sm:max-w-2xl">
     <div class="">
-        <label for="query" class="mx-2 sm:mx-0 text-lg">Enter your examples here:</h2>
+        <label for="query" class="mx-2 sm:mx-0 text-lg">Enter your examples here:</label>
         <textarea
             id="query"
             name="query"
@@ -17,18 +17,18 @@
             <div class="mt-6 sm:mt-3 flex items-center h-6">
                 <div class="flex items-center">
                     <input
-                        id="flag-<%= flag_name %>"
+                        id={"flag-#{flag_name}"}
                         class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300 rounded"
                         type="checkbox"
-                        name="<%= flag_name %>"
+                        name={flag_name}
                         phx-click="set_flag"
-                        phx-value-flag="<%= flag_name %>"
-                        phx-value-enabled="<%= !flag_value %>"
-                        <%= if flag_value do %>checked<% end %>
+                        phx-value-flag={flag_name}
+                        phx-value-enabled={!flag_value}
+                        checked={flag_value}
                     />
                 </div>
                 <div class="ml-3 text-sm">
-                    <label class="font-medium text-gray-700" for="flag-<%= flag_name %>"><%= Phoenix.Naming.humanize(flag_name) %></label>
+                    <label class="font-medium text-gray-700" for={"flag-#{flag_name}"}><%= Phoenix.Naming.humanize(flag_name) %></label>
                     <p class="text-gray-500 text-sm"><%= Map.get(@flags, flag_name)[:description] %></p>
                 </div>
             </div>
@@ -42,7 +42,7 @@
     <% else %>
         <div class="mt-10">
             <h2 class="text-lg">Generated Expression</h2>
-            <textarea disabled rows=<%= Enum.count(String.split(@regex_generated, "\n")) %> class="w-full mt-2 pt-3 text-sm font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
+            <textarea disabled rows={Enum.count(String.split(@regex_generated, "\n"))} class="w-full mt-2 pt-3 text-sm font-mono bg-gray-100 border-none rounded-md"><%= @regex_generated %></textarea>
             <div class="mt-10 w-full text-center">
                 <button type="button" phx-click="copy_generated" class="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,18 +57,18 @@
         </div>
 
         <div class="mt-8 mb-16">
-            <label for="check" class="text-lg">Check</h2>
+            <label for="check" class="text-lg">Check</label>
             <textarea
                 id="check"
                 class="mt-2 font-mono shadow-sm block w-full focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300 rounded-md"
-                rows=<%= Enum.count(String.split(@regex_generated, "\n")) %>
+                rows={Enum.count(String.split(@regex_generated, "\n"))}
                 phx-keydown="update_regex_custom"
                 phx-debounce="200"
             ><%= @regex_custom %></textarea>
             <div class="">
                 <div class="w-full mt-2 p-3 text-sm font-mono bg-gray-100 border-none rounded-md">
                     <%= for {match, line} <- Enum.zip(@matches, @lines) do %>
-                        <div class="<%= if match do %>text-green-600<% else %>text-red-600<% end %>"><%= line %></div>
+                        <div class={if match, do: "text-green-600", else: "text-red-600"}><%= line %></div>
                     <% end %>
                 </div>
             </div>
