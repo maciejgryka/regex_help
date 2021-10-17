@@ -55,7 +55,7 @@ jobs:
     needs: [unit-test, deploy-qa, qa-up]
     container: gcr.io/rf-public-images/rainforest-cli
     steps:
-      - run: rainforest-cli run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --description "regex.help:$GITHUB_REF" --release "$GITHUB_SHA"
+      - run: rainforest run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --description "regex.help:$GITHUB_REF" --release "$GITHUB_SHA"
 
   qa-down:
     runs-on: ubuntu-latest
