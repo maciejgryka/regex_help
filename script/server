@@ -6,4 +6,6 @@ export AUTH_USERNAME=admin
 export AUTH_PASSWORD=password
 export NODE_ENV=development
 
+asdf install
+mix deps.get
 mix phx.server
