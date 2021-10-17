@@ -30,10 +30,6 @@ defmodule RegexHelpWeb.Router do
     get "/about", AboutController, :index
   end
 
-  # plausible proxy
-  forward "/js/script.js", PlausibleScriptPlug, upstream: "https://plausible.io/js/plausible.js"
-  forward "/api/event", PlausibleApiPlug, upstream: "https://plausible.io/api/event"
-
   scope "/" do
     pipe_through [:browser, :admins_only]
     live_dashboard "/dashboard", metrics: RegexHelpWeb.Telemetry
