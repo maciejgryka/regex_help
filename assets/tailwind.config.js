@@ -4,15 +4,11 @@ module.exports = {
     '../lib/**/*.ex',
     '../lib/**/*.leex',
     '../lib/**/*.eex',
+    '../lib/**/*.heex',
     './js/**/*.js'
   ],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
+  theme: {},
+  variants: {},
   plugins: [
     require('@tailwindcss/forms'),
   ],

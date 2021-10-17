@@ -46,7 +46,8 @@ defmodule RegexHelp.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:rustler, "~> 0.22.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.1", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
+      {:esbuild, "~> 0.2", runtime: Mix.env() == :dev}
     ]
   end
 
@@ -58,7 +59,12 @@ defmodule RegexHelp.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "cmd npm install --prefix assets"]
+      setup: ["deps.get", "cmd npm install --prefix assets"],
+      "assets.deploy": [
+        "cmd --cd assets npm run deploy",
+        "esbuild default --minify",
+        "phx.digest"
+      ]
     ]
   end
 end

@@ -2,15 +2,7 @@ defmodule RegexHelpWeb.Router do
   use RegexHelpWeb, :router
   import Phoenix.LiveDashboard.Router
 
-  alias RegexHelpWeb.{PlausibleApiPlug, PlausibleScriptPlug}
-
   pipeline :browser do
-    # moved from the Endpoint to avoid parsing forwarded Plausible paths
-    plug Plug.Parsers,
-      parsers: [:urlencoded, :multipart, :json],
-      pass: ["*/*"],
-      json_decoder: Phoenix.json_library()
-
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash

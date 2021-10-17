@@ -23,8 +23,8 @@ defmodule RegexHelpWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: :regex_help,
-    gzip: true,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    gzip: false,
+    only: ~w(assets fonts images favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -37,6 +37,11 @@ defmodule RegexHelpWeb.Endpoint do
   plug Phoenix.LiveDashboard.RequestLogger,
     param_key: "request_logger",
     cookie_key: "request_logger"
+
+  plug Plug.Parsers,
+    parsers: [:urlencoded, :multipart, :json],
+    pass: ["*/*"],
+    json_decoder: Phoenix.json_library()
 
   plug Plug.RequestId
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
