@@ -1,9 +1,10 @@
 {
   "devDependencies": {
+    "@tailwindcss/forms": "^0.3.4",
     "autoprefixer": "^10.3.7",
-    "postcss": "^8.3.9",
+    "postcss": "^8.3.11",
     "tailwindcss": "^2.2.17",
-    "@tailwindcss/forms": "^0.3.4"
+    "topbar": "^1.0.1"
   },
   "scripts": {
     "deploy": "NODE_ENV=production tailwindcss --postcss --minify --input=css/app.css --output=../priv/static/assets/app.css"

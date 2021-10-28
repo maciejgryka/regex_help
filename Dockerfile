@@ -40,13 +40,20 @@ COPY mix.exs mix.lock ./
 COPY config config
 RUN mix do deps.get --only prod, deps.compile
 
+# TODO: separate test and front-end
+
 # test stage, only used with `--target test`
 FROM build_elixir AS test
+# install required node version
+RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+RUN apt-get update -q && apt-get install -y nodejs
+
 ENV MIX_ENV=test
 # get all deps, not just production
 RUN mix do deps.get, deps.compile
-COPY priv priv
+# install node packages
 COPY assets assets
+RUN npm --prefix ./assets install
 COPY lib lib
 COPY rel rel
 COPY native native
@@ -55,34 +62,19 @@ COPY script script
 COPY .formatter.exs .formatter.exs
 COPY .credo.exs .credo.exs
 RUN mix compile
+RUN mix assets.deploy
 CMD ./script/test
-
-# build the frontend assets
-FROM node:15.14-buster AS frontend
-WORKDIR /app
-# PurgeCSS needs to see the Elixir stuff
-COPY lib ./lib
-COPY assets/package.json assets/package-lock.json ./assets/
-COPY --from=build_elixir /app/deps/phoenix ./deps/phoenix
-COPY --from=build_elixir /app/deps/phoenix_html ./deps/phoenix_html
-COPY --from=build_elixir /app/deps/phoenix_live_view ./deps/phoenix_live_view
-RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
-COPY assets ./assets
-RUN npm --prefix ./assets run deploy
 
 # make a release bundle
 FROM build_elixir AS release
+# RUN apt-get update -q && apt-get install -y npm
 WORKDIR /app
 ENV LANG=C.UTF-8 \
     LANGUAGE=C:en \
     LC_ALL=C.UTF-8 \
     MIX_ENV=prod \
     SECRET_KEY_BASE=nokey
-COPY priv priv
-COPY assets assets
 COPY lib lib
-COPY --from=frontend /app/priv/static ./priv/static
-RUN mix phx.digest
 COPY rel rel
 COPY native native
 RUN mix do compile, release
@@ -102,4 +94,5 @@ RUN groupadd -g 1000 "${USER}" && \
     useradd --shell /bin/sh --uid 1000 --gid "${USER}" --home-dir /home/"${USER}" --create-home "${USER}" && \
     chown "${USER}":"${USER}" /home/"${USER}"
 COPY --from=release --chown=phoenix:phoenix /app/_build/prod/rel/regex_help ./
+COPY --from=test --chown=phoenix:phoenix /app/priv ./priv
 CMD ["bin/regex_help", "start"]
