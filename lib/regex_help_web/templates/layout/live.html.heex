@@ -1,3 +1,20 @@
+<div class="mt-3 mx-auto sm:max-w-2xl grid grid-cols-12">
+  <div class="col-start-2 col-span-10 text-center">
+    <%= live_redirect to: Routes.page_path(@socket, :index), class: "no-underline" do %>
+      <h1 class="text-3xl font-bold text-yellow-600 inline">regex:help!</h1>
+    <% end %>
+  </div>
+  <div class="col-span-1">
+    <span class="float-right mt-1">
+      <%= live_redirect to: Routes.about_path(@socket, :index) do %>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      <% end %>
+    </span>
+  </div>
+</div>
+
 <main role="main" class="mt-6 mx-auto sm:max-w-2xl">
   <p class="alert alert-info" role="alert"
     phx-click="lv:clear-flash"

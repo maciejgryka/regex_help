@@ -18,8 +18,10 @@ defmodule RegexHelpWeb.Router do
   scope "/", RegexHelpWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
-    get "/about", AboutController, :index
+    live_session :default do
+      live "/", PageLive, :index
+      live "/about", AboutLive, :index
+    end
   end
 
   scope "/" do
