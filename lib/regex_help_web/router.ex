@@ -19,7 +19,7 @@ defmodule RegexHelpWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
-    get "/about", AboutController, :index
+    live "/about", AboutLive, :index
   end
 
   scope "/" do
