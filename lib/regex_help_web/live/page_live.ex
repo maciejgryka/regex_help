@@ -47,6 +47,10 @@ defmodule RegexHelpWeb.PageLive do
     {:noreply, update_custom(socket, socket.assigns.regex_generated)}
   end
 
+  def handle_event("ping", _params, socket) do
+    {:noreply, socket}
+  end
+
   @spec update_generated(Socket.t(), String.t(), Flags.t()) :: Socket.t()
   defp update_generated(socket, query, flags) do
     socket

@@ -8,12 +8,27 @@
 //     import socket from "./socket"
 //
 import "phoenix_html"
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
+
+let Hooks = {}
+Hooks.RTT = {
+    mounted() {
+        this.timer = setInterval(() => {
+            let beforeTime = (new Date().getTime())
+            this.pushEvent("ping", {}, resp => {
+                let rtt = (new Date().getTime()) - beforeTime
+                this.el.innerText = `${rtt}ms`
+            })
+        }, 1000)
+    },
+    destroyed() { clearInterval(this.timer) }
+}
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
-    params: {_csrf_token: csrfToken},
+    params: { _csrf_token: csrfToken },
+    hooks: Hooks,
     metadata: {
         keydown: (e, el) => {
             return {
