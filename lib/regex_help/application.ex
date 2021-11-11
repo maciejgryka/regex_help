@@ -7,6 +7,7 @@ defmodule RegexHelp.Application do
 
   def start(_type, _args) do
     children = [
+      RegexHelp.PromEx,
       # Start the Telemetry supervisor
       RegexHelpWeb.Telemetry,
       # Start the PubSub system
