@@ -47,7 +47,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@master
         with:
-          args: "deploy --remote-only --config fly.qa.toml --dockerfile Dockerfile"
+          args: 'deploy --remote-only --config fly.qa.toml --dockerfile Dockerfile --env HOST="regex-help-stg.fly.dev" --env GIT_SHA="${{ github.sha }}"'
 
   test-rf:
     runs-on: ubuntu-latest
@@ -82,4 +82,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: superfly/flyctl-actions@master
         with:
-          args: "deploy --remote-only --config fly.toml --dockerfile Dockerfile"
+          args: 'deploy --remote-only --config fly.toml --dockerfile Dockerfile --env HOST="regex.help" --env GIT_SHA="${{ github.sha }}"'
