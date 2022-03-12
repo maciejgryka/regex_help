@@ -44,7 +44,7 @@ defmodule RegexHelp.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:rustler, "~> 0.22.0"},
+      {:rustler, "~> 0.24.0"},
       {:prom_ex, "~> 1.5.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev], runtime: false},
