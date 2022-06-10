@@ -1,4 +1,4 @@
-erlang 24.3
-elixir 1.13.3-otp-24
-nodejs 17.0.1
-rust 1.59.0
+erlang 25.0
+elixir 1.13.4-otp-25
+nodejs 18.3.0
+rust 1.61.0

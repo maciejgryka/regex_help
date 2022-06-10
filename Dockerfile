@@ -1,5 +1,5 @@
 # install Elixir deps
-FROM elixir:1.13.3 AS build_elixir
+FROM elixir:1.13.4-otp-25 AS build_elixir
 WORKDIR /app
 ENV LANG=C.UTF-8 \
     LANGUAGE=C:en \
@@ -13,7 +13,7 @@ ENV LANG=C.UTF-8 \
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=1.59.0
+    RUST_VERSION=1.61.0
 RUN set -eux; \
     dpkgArch="$(dpkg --print-architecture)"; \
     case "${dpkgArch##*-}" in \
@@ -45,7 +45,7 @@ RUN mix do deps.get --only prod, deps.compile
 # test stage, only used with `--target test`
 FROM build_elixir AS test
 # install required node version
-RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get update -q && apt-get install -y nodejs
 
 ENV MIX_ENV=test
@@ -80,7 +80,7 @@ COPY native native
 RUN mix do compile, release
 
 # prepare release docker image
-FROM erlang:24.3-slim AS app
+FROM erlang:25.0-slim AS app
 WORKDIR /app
 ENV LANG=C.UTF-8 \
     LANGUAGE=C:en \
