@@ -22,7 +22,7 @@ defmodule RegexHelpWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: "/app/priv/static",
+    from: :regex_help,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
