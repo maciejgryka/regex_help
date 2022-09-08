@@ -11,5 +11,5 @@ crate-type = ["dylib"]
 
 [dependencies]
 regex = "1"
-rustler = "0.25.0"
-grex = "1.3.0"
+rustler = "0.26.0"
+grex = "1.4.0"

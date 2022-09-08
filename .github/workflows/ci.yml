@@ -52,7 +52,7 @@ jobs:
   test-rf:
     runs-on: ubuntu-latest
     name: Run Rainforest tests
-    needs: [unit-test, deploy-qa, qa-up]
+    needs: [deploy-qa, qa-up]
     container: gcr.io/rf-public-images/rainforest-cli
     steps:
       - run: rainforest run --run-group-id 8873 --fail-fast --token ${{ secrets.RAINFOREST_API_TOKEN }} --description "regex.help:$GITHUB_REF" --release "$GITHUB_SHA"
@@ -76,7 +76,7 @@ jobs:
     name: Deploy to prod
     env:
       MIX_ENV: prod
-    needs: test-rf
+    needs: [unit-test, test-rf]
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2

@@ -23,6 +23,7 @@ defmodule RegexHelpWeb.Endpoint do
   plug Plug.Static,
     at: "/",
     from: "/app/priv/static",
+    # from: :regex_help,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 

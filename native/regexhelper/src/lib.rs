@@ -1,6 +1,6 @@
 use regex::Regex;
 
-use grex::{Feature, RegExpBuilder};
+use grex::RegExpBuilder;
 
 #[rustler::nif]
 fn build_expression(
@@ -16,23 +16,18 @@ fn build_expression(
 ) -> String {
     let lines: Vec<&str> = query.lines().collect();
 
-    let mut regexp = RegExpBuilder::from(&lines);
+    let mut builder = RegExpBuilder::from(&lines);
 
-    let mut features: Vec<Feature> = Vec::new();
-    if digits { features.push(Feature::Digit); }
-    if spaces { features.push(Feature::Space); }
-    if words { features.push(Feature::Word); }
-    if repetitions { features.push(Feature::Repetition); }
-    if ignore_case { features.push(Feature::CaseInsensitivity); }
-    if capture_groups { features.push(Feature::CapturingGroup) }
-    if features.len() > 0 {
-        regexp.with_conversion_of(&features);
-    }
-    
-    if verbose { regexp.with_verbose_mode(); }
-    if escape { regexp.with_escaping_of_non_ascii_chars(false); }
+    if digits { builder.with_conversion_of_digits(); }
+    if spaces { builder.with_conversion_of_whitespace(); }
+    if words { builder.with_conversion_of_words(); }
+    if repetitions { builder.with_conversion_of_repetitions(); }
+    if ignore_case { builder.with_case_insensitive_matching(); }
+    if capture_groups { builder.with_capturing_groups(); }
+    if verbose { builder.with_verbose_mode(); }
+    if escape { builder.with_escaping_of_non_ascii_chars(false); }
 
-    regexp.build()
+    builder.build()
 }
 
 #[rustler::nif]

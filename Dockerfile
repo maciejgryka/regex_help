@@ -1,5 +1,5 @@
 # install Elixir deps
-FROM elixir:1.13.4-otp-25 AS build_elixir
+FROM elixir:1.14.0 AS build_elixir
 WORKDIR /app
 ENV LANG=C.UTF-8 \
     LANGUAGE=C:en \
@@ -13,7 +13,7 @@ ENV LANG=C.UTF-8 \
 ENV RUSTUP_HOME=/usr/local/rustup \
     CARGO_HOME=/usr/local/cargo \
     PATH=/usr/local/cargo/bin:$PATH \
-    RUST_VERSION=1.61.0
+    RUST_VERSION=1.63.0
 RUN set -eux; \
     dpkgArch="$(dpkg --print-architecture)"; \
     case "${dpkgArch##*-}" in \
